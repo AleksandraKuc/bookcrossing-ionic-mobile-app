@@ -1,0 +1,25 @@
+<ion-tabs>
+  <ion-tab-bar slot="bottom">
+
+    <ion-tab-button tab="books">
+      <ion-icon name="book"></ion-icon>
+      <ion-label>Books</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="users">
+      <ion-icon name="people"></ion-icon>
+      <ion-label>Users</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="login" *ngIf="!isLogged">
+      <ion-icon name="log-in"></ion-icon>
+      <ion-label>Login</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="profile" *ngIf="isLogged">
+      <ion-icon name="person-circle"></ion-icon>
+      <ion-label>Profile</ion-label>
+    </ion-tab-button>
+
+  </ion-tab-bar>
+</ion-tabs>

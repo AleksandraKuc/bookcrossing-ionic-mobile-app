@@ -1,0 +1,51 @@
+<ion-header>
+  <ion-toolbar color="deep-purple">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/" slot="icon-only"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{details?.title}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding ion-text-center">
+
+  <ion-card *ngIf="details">
+      <ion-item lines="none">
+        <ion-card-header>
+          <ion-card-title>
+            {{details.title}}
+          </ion-card-title>
+          <ion-card-subtitle>
+            {{details.author}}
+          </ion-card-subtitle>
+        </ion-card-header>
+        <ion-icon name="heart-outline" slot="end" *ngIf="isLoggedUser" (click)="addToFavourites()"></ion-icon>
+        <ion-icon name="create-outline" slot="end" *ngIf="isMyBook" (click)="editBook()"></ion-icon>
+        <ion-icon name="trash-outline" slot="end" *ngIf="isMyBook" (click)="deleteBook()"></ion-icon>
+      </ion-item>
+    <ion-card-content>
+      <ion-item lines="none">
+        <ion-icon name="reader-outline" slot="start"></ion-icon>"
+        <ion-label class="ion-text-wrap">{{details.description}}</ion-label>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-icon name="cube-outline" slot="start"></ion-icon>
+        <ion-label class="ion-text-wrap">{{details.category}}</ion-label>
+      </ion-item>
+      <ion-item lines="none" *ngIf="details.isbn">
+        <ion-icon name="barcode-outline" slot="start"></ion-icon>
+        <ion-label class="ion-text-wrap">{{details.isbn}}</ion-label>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-icon name="today-outline" slot="start"></ion-icon>
+        <ion-label class="ion-text-wrap">{{details.history.start_date | date: 'yyyy/mm/dd'}}</ion-label>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-icon name="person-outline" slot="start"></ion-icon>
+        <ion-label class="ion-text-wrap">{{currentUser?.username}}</ion-label>
+      </ion-item>
+      <ion-button color="amber" class="ion-align-items-center ion-margin-top" *ngIf="!isMyBook && isLoggedUser"> Reserve book</ion-button>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
+
