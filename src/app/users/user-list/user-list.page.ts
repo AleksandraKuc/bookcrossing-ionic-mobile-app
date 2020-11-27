@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import {Observable} from 'rxjs';
 import {UserDefinition} from '../../core/models/user-definition.model';
 import {UserService} from '../../core/services/user.service';
-import {TokenStorageService} from '../../shared/services/token-storage.service';
 
 @Component({
   selector: 'app-user-list',

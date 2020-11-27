@@ -19,6 +19,7 @@
           {{details.firstName}}
         </ion-card-subtitle>
       </ion-card-header>
+      <ion-icon name="alert-outline" slot="end" *ngIf="isLogged && !isProfileView" (click)="reportUser()"></ion-icon>
     </ion-item>
     <ion-card-content>
       <ion-item lines="none">

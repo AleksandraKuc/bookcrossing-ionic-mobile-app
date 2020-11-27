@@ -1,9 +1,5 @@
 import { Injectable } from '@angular/core';
-
-import { Storage } from '@ionic/storage';
-import {HttpClientModule} from '@angular/common/http';
-import {Platform} from '@ionic/angular';
-import {Router} from '@angular/router';
+import { Router } from '@angular/router';
 
 const TOKEN_KEY = 'AuthToken';
 const USERNAME_KEY = 'AuthUsername';
@@ -13,46 +9,36 @@ const USERNAME_KEY = 'AuthUsername';
 })
 export class TokenStorageService {
 
-  constructor(private storage: Storage,
-              private plt: Platform,
-              private http: HttpClientModule,
-              private router: Router) { }
+  constructor(private router: Router) { }
 
-  signOut() {
-    this.storage.clear().then(() => {
-      this.router.navigate(['/']);
-    });
+  logOut() {
+    window.sessionStorage.clear();
+    this.router.navigateByUrl('/');
   }
 
   public saveToken(token: string) {
-    this.storage.set(TOKEN_KEY, token);
+    window.sessionStorage.removeItem(TOKEN_KEY);
+    window.sessionStorage.setItem(TOKEN_KEY, token);
   }
 
-  public getToken(): Promise<any> {
-    return this.storage.get(TOKEN_KEY);
+  public getToken(): string {
+    return sessionStorage.getItem(TOKEN_KEY);
   }
 
   public saveUsername(username: string) {
-    this.storage.set(USERNAME_KEY, username);
+    window.sessionStorage.removeItem(USERNAME_KEY);
+    window.sessionStorage.setItem(USERNAME_KEY, username);
   }
 
-  public getUsername(): Promise<any> {
-    return this.storage.get(USERNAME_KEY);
+  public getUsername(): string {
+    return sessionStorage.getItem(USERNAME_KEY);
   }
 
-  clear(): Promise<void> {
-    return this.storage.clear();
+  isLoggedIn(): boolean {
+    return !!this.getUsername();
   }
 
-  isLogged() {
-    return this.getUsername().then( value => {
-      return !!value;
-    });
-  }
-
-  retrieveUsername(): string | null {
-    let username: string;
-    this.getUsername().then(value => {username = value;});
-    return username;
+  areUsernameEquals(login: string): boolean {
+    return login === this.getUsername();
   }
 }

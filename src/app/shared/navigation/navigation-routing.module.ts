@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { NavigationPage } from './navigation.page';
+import {AuthGuard} from '../guards/auth.guard';
 
 const routes: Routes = [
   {
@@ -17,8 +18,10 @@ const routes: Routes = [
         loadChildren: () => import('../../books/book-details/book-details.module').then(m => m.BookDetailsPageModule)
       },
       {
-        path: 'books/book-favourite',
-        loadChildren: () => import('../../books/book-list/book-list.module').then(m => m.BookListPageModule)
+        path: 'favourite-books',
+        loadChildren: () => import('../../books/book-list/book-list.module').then(m => m.BookListPageModule),
+        data: { mode: 'fav' },
+        canActivate: [AuthGuard],
       },
       {
         path: 'books/user-books',
@@ -34,7 +37,8 @@ const routes: Routes = [
       },
       {
         path: 'user-profile',
-        loadChildren: () => import('../../users/user-details/user-details.module').then( m => m.UserDetailsPageModule)
+        loadChildren: () => import('../../users/user-details/user-details.module').then( m => m.UserDetailsPageModule),
+        canActivate: [AuthGuard],
       },
       {
         path: 'login',

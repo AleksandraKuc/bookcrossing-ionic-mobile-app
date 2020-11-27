@@ -1,8 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import {UserDefinition} from '../../core/models/user-definition.model';
-import {UserService} from '../../core/services/user.service';
-import {ActivatedRoute, Router} from '@angular/router';
-import {TokenStorageService} from '../../shared/services/token-storage.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Component } from '@angular/core';
+
+import { TokenStorageService } from '../../shared/services/token-storage.service';
+import { UserDefinition } from '../../core/models/user-definition.model';
+import { UserService } from '../../core/services/user.service';
+import {AlertController} from '@ionic/angular';
+import {ReportInfo} from '../../shared/models/report-info';
+import {ReportService} from '../../core/services/report.service';
 
 @Component({
   selector: 'app-user-details',
@@ -16,7 +20,9 @@ export class UserDetailsPage {
   constructor(private activatedRoute: ActivatedRoute,
               private userService: UserService,
               private router: Router,
-              private tokenStorage: TokenStorageService) { }
+              private tokenStorage: TokenStorageService,
+              private alertCtrl: AlertController,
+              private reportService: ReportService) { }
 
   ionViewWillEnter() {
     const username = this.activatedRoute.snapshot.paramMap.get('username');
@@ -25,12 +31,12 @@ export class UserDetailsPage {
     });
   }
 
-  isProfileView(): boolean {
-    return this.details.username === this.tokenStorage.retrieveUsername();
+  get isProfileView(): boolean {
+    return this.tokenStorage.areUsernameEquals(this.details.username);
   }
 
   get buttonText(): string {
-    if (this.isProfileView()) {
+    if (this.isProfileView) {
       return 'Show my books';
     }
     return 'Show user\'s books';
@@ -38,5 +44,55 @@ export class UserDetailsPage {
 
   showUsersBooks(): void {
     this.router.navigate(['navigation/books/user-books'], { state: { username: this.details.username }});
+  }
+
+  reportUser() {
+    this.openReportDialog();
+  }
+
+  get isLogged(): boolean {
+    return this.tokenStorage.isLoggedIn();
+  }
+
+  openReportDialog() {
+    this.alertCtrl.create({
+      header: 'Create report',
+      subHeader: `Reporting ${this.details.username}`,
+      inputs: [
+        {
+          name: 'content',
+          type: 'text',
+          placeholder: 'Enter report reason...'
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+        },
+        {
+          text: 'Send report',
+          handler: (alertData) => {
+            this.sendReport(alertData.content);
+          }
+        }
+      ]
+    }).then(alert => alert.present());
+  }
+
+  sendReport(content) {
+    const report = new ReportInfo(this.details.username, content);
+    this.reportService.createReport(report).subscribe( () => {
+      this.showSuccess();
+    });
+  }
+
+  showSuccess() {
+    this.alertCtrl.create({
+      header: 'Success',
+      message: 'Report sent successfully',
+      buttons: ['OK']
+    }).then(alert => alert.present());
   }
 }

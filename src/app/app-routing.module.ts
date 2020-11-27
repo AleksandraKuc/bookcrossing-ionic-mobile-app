@@ -5,7 +5,7 @@ const routes: Routes = [
   {
     path: '',
     loadChildren: () => import('./shared/navigation/navigation.module').then(m => m.NavigationPageModule)
-  },
+  }
 ];
 
 @NgModule({

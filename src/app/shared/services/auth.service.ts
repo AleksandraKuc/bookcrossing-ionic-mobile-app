@@ -5,7 +5,6 @@ import { Observable } from 'rxjs';
 import { AuthLoginInfo } from '../models/login-info';
 import { JwtResponse } from '../models/jwt-response';
 import { SignUpInfo } from '../models/sign-up-info';
-import {TokenStorageService} from './token-storage.service';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })

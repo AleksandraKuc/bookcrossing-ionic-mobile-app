@@ -9,6 +9,7 @@ import {TokenStorageService} from '../../shared/services/token-storage.service';
 import {ConversationService} from '../../core/services/conversation.service';
 import {MessageDefinition} from '../../core/models/message-definition.model';
 import {ConversationDefinition} from '../../core/models/conversation-definition.model';
+import {AlertController} from '@ionic/angular';
 
 @Component({
     selector: 'app-book-details',
@@ -27,14 +28,20 @@ export class BookDetailsPage implements OnInit {
                 private historyUsersService: HistoryUsersService,
                 private conversationService: ConversationService,
                 private tokenStorage: TokenStorageService,
-                private router: Router) {
+                private router: Router,
+                private alertCtrl: AlertController) {
     }
 
-    ngOnInit() {
+    ngOnInit() { }
+
+    ionViewWillEnter() {
         const id = this.activatedRoute.snapshot.paramMap.get('id');
         this.bookService.getBook(id).subscribe(result => {
             this.details = result;
             this.getCurrentUser();
+            if (this.isLoggedUser) {
+                this.checkFavourites();
+            }
         });
     }
 
@@ -63,8 +70,24 @@ export class BookDetailsPage implements OnInit {
     }
 
     deleteBook(): void {
-        this.bookService.deleteBook(this.details.id_book).subscribe(() => {
-            this.router.navigate([`/books`]);
+        this.alertCtrl.create({
+            header: 'Are you sure?',
+            message: 'Do you really want do delete this book?',
+            buttons: [
+                {
+                    text: 'Cancel',
+                    role: 'cancel'
+                },
+                {
+                    text: 'Delete',
+                    handler: () => {
+                        this.bookService.deleteBook(this.details.id_book).subscribe(() => {
+                            this.router.navigate([`/books`]);
+                        });
+                    }
+                }]
+        }).then(alertEl => {
+            alertEl.present();
         });
     }
 
@@ -96,11 +119,11 @@ export class BookDetailsPage implements OnInit {
     }
 
     get isLoggedUser(): boolean {
-        return !!this.tokenStorage.getUsername();
+        return this.tokenStorage.isLoggedIn();
     }
 
     get isMyBook(): boolean {
-        return this.currentUser?.username === this.tokenStorage.retrieveUsername();
+        return this.tokenStorage.areUsernameEquals(this.currentUser?.username);
     }
 
     reserveBook(): void {
@@ -134,8 +157,11 @@ export class BookDetailsPage implements OnInit {
         );
         this.conversationService.sendMessage(message).subscribe(
             () => {
-                console.log('reserved'); // tu powinien być alert, że book reserved
-                // message sent to current owner of the book. Go to our web page to see details.
+                this.alertCtrl.create({
+                    header: 'Success',
+                    message: 'Message sent to current owner of the book. Go to our web page to see details.',
+                    buttons: ['OK']
+                }).then(alert => alert.present());
             }
         );
     }

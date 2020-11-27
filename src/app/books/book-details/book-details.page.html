@@ -19,7 +19,8 @@
             {{details.author}}
           </ion-card-subtitle>
         </ion-card-header>
-        <ion-icon name="heart-outline" slot="end" *ngIf="isLoggedUser" (click)="addToFavourites()"></ion-icon>
+        <ion-icon name="heart-outline" slot="end" *ngIf="isLoggedUser && !isFavourite" (click)="addToFavourites()"></ion-icon>
+        <ion-icon name="heart" slot="end" *ngIf="isLoggedUser && isFavourite" (click)="removeFromFavourites()"></ion-icon>
         <ion-icon name="create-outline" slot="end" *ngIf="isMyBook" (click)="editBook()"></ion-icon>
         <ion-icon name="trash-outline" slot="end" *ngIf="isMyBook" (click)="deleteBook()"></ion-icon>
       </ion-item>
@@ -44,7 +45,10 @@
         <ion-icon name="person-outline" slot="start"></ion-icon>
         <ion-label class="ion-text-wrap">{{currentUser?.username}}</ion-label>
       </ion-item>
-      <ion-button color="amber" class="ion-align-items-center ion-margin-top" *ngIf="!isMyBook && isLoggedUser"> Reserve book</ion-button>
+      <ion-button color="amber" class="ion-align-items-center ion-margin-top"
+                  *ngIf="!isMyBook && isLoggedUser" (click)="reserveBook()">
+        Reserve book
+      </ion-button>
     </ion-card-content>
   </ion-card>
 </ion-content>

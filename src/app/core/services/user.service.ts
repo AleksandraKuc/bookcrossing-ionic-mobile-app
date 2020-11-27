@@ -14,7 +14,7 @@ export class UserService {
               private tokenStorage: TokenStorageService) {}
 
   getUser(username?: any): Observable<any> {
-    username = username ? username : this.tokenStorage.retrieveUsername();
+    username = username ? username : this.tokenStorage.getUsername();
     return this.http.get<UserDefinition>(`${environment.apiUrl}/user/username/${username}`);
   }
 
@@ -35,7 +35,7 @@ export class UserService {
   }
 
   deleteAccount(username?: string): Observable<any> {
-    const user = username ? username : this.tokenStorage.retrieveUsername();
+    const user = username ? username : this.tokenStorage.getUsername();
     return this.http.delete(`${environment.apiUrl}/user/${user}`);
   }
 }

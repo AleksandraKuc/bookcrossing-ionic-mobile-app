@@ -14,7 +14,7 @@ export class ConversationService {
               private tokenStorage: TokenStorageService) {}
 
   getConversationByUsers(recipient: string): Observable<any> {
-    const username = this.tokenStorage.retrieveUsername();
+    const username = this.tokenStorage.getUsername();
     return this.http.get(`${environment.apiUrl}/conversation/byUsers/${username}/${recipient}`);
   }
 
@@ -23,12 +23,12 @@ export class ConversationService {
   }
 
   createConversation(recipientName: string): Observable<any> {
-    const username = this.tokenStorage.retrieveUsername();
+    const username = this.tokenStorage.getUsername();
     return this.http.post(`${environment.apiUrl}/conversation/create/${username}/${recipientName}`, null);
   }
 
   checkIfExists(recipientName: string): Observable<any> {
-    const username = this.tokenStorage.retrieveUsername();
+    const username = this.tokenStorage.getUsername();
     return this.http.get(`${environment.apiUrl}/conversation/exists/${username}/${recipientName}`);
   }
 }

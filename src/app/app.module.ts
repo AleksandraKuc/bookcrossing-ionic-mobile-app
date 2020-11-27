@@ -6,10 +6,11 @@ import { RouteReuseStrategy } from '@angular/router';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
-import { IonicStorageModule } from '@ionic/storage';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import { httpAuthInterceptorProvider } from './shared/interceptors/auth-interceptor';
+import { httpOverlayInterceptorProvider } from './shared/interceptors/spinner-overlay.interceptor';
 
 @NgModule({
   declarations: [AppComponent],
@@ -19,11 +20,12 @@ import { AppRoutingModule } from './app-routing.module';
     IonicModule.forRoot(),
     AppRoutingModule,
     HttpClientModule,
-    IonicStorageModule.forRoot()
   ],
   providers: [
     StatusBar,
     SplashScreen,
+    httpAuthInterceptorProvider,
+    httpOverlayInterceptorProvider,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [ AppComponent ]
