@@ -12,7 +12,7 @@
     <ion-grid>
         <ion-row>
             <ion-col size="11" offset="0.5">
-                <ion-searchbar [(ngModel)]="searchTitle" (ionChange)="searching()"></ion-searchbar>
+                <ion-searchbar [(ngModel)]="searchTitle" (ionChange)="clearList(); searching()"></ion-searchbar>
                 <ion-item>
                     <ion-label>Select books category:</ion-label>
                     <ion-select [(ngModel)]="searchType" (ionChange)="searching()">
@@ -23,8 +23,8 @@
                     </ion-select>
                 </ion-item>
 
-                <ion-list *ngIf="(books | async)?.length">
-                    <ion-item button *ngFor="let book of (books | async)"
+                <ion-list *ngIf="books?.length">
+                    <ion-item button *ngFor="let book of books"
                               [routerLink]="detailsLink(book.id_book)">
                         <ion-label class="ion-text-wrap">
                             <h2><b>{{ book.title }}</b></h2>
@@ -35,12 +35,12 @@
                     </ion-item>
                 </ion-list>
 
-                <ion-infinite-scroll threshold="5%" (ionInfinite)="loadData($event)">
+                <ion-infinite-scroll *ngIf="books?.length" threshold="5%" (ionInfinite)="loadMore($event)">
                     <ion-infinite-scroll-content loading-spinner="crescent" loading-text="Loading more books...">
                     </ion-infinite-scroll-content>
                 </ion-infinite-scroll>
 
-                <ion-item lines="none" *ngIf="!(books | async)?.length" class="ion-align-items-center">
+                <ion-item lines="none" *ngIf="!books?.length" class="ion-align-items-center">
                     <span> No books find :( </span>
                 </ion-item>
             </ion-col>

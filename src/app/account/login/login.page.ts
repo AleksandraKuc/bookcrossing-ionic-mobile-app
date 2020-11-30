@@ -1,11 +1,12 @@
-import {Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
-import {AuthLoginInfo} from '../../shared/models/login-info';
-import {AuthService} from '../../shared/services/auth.service';
-import {TokenStorageService} from '../../shared/services/token-storage.service';
-import {AlertController} from '@ionic/angular';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import { AlertController } from '@ionic/angular';
+
+import { AuthLoginInfo } from '../../shared/models/login-info';
+import { AuthService } from '../../shared/services/auth.service';
+import { TokenStorageService } from '../../shared/services/token-storage.service';
 
 @Component({
     selector: 'app-login',

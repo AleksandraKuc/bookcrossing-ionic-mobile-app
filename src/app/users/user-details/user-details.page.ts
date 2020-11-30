@@ -1,12 +1,13 @@
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component } from '@angular/core';
 
+import { AlertController } from '@ionic/angular';
+
+import { ReportInfo } from '../../shared/models/report-info';
+import { ReportService } from '../../core/services/report.service';
 import { TokenStorageService } from '../../shared/services/token-storage.service';
 import { UserDefinition } from '../../core/models/user-definition.model';
 import { UserService } from '../../core/services/user.service';
-import {AlertController} from '@ionic/angular';
-import {ReportInfo} from '../../shared/models/report-info';
-import {ReportService} from '../../core/services/report.service';
 
 @Component({
   selector: 'app-user-details',

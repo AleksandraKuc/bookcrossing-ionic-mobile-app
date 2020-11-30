@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {AlertController} from '@ionic/angular';
-import {Router} from '@angular/router';
-import {SignUpInfo} from '../../shared/models/sign-up-info';
-import {AuthService} from '../../shared/services/auth.service';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+
+import { AlertController } from '@ionic/angular';
+
+import { AuthService} from '../../shared/services/auth.service';
+import { SignUpInfo } from '../../shared/models/sign-up-info';
 
 @Component({
   selector: 'app-register',

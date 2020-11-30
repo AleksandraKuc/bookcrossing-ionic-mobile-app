@@ -1,9 +1,12 @@
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {TokenStorageService} from '../../shared/services/token-storage.service';
-import {Observable} from 'rxjs';
-import {UserDefinition} from '../models/user-definition.model';
-import {environment} from '../../../environments/environment';
+
+import { Observable } from 'rxjs';
+
+import { environment } from '../../../environments/environment';
+import { SearchParamsInfo } from '../../shared/models/searchParams-info';
+import { TokenStorageService } from '../../shared/services/token-storage.service';
+import { UserDefinition } from '../models/user-definition.model';
 
 @Injectable({
   providedIn: 'root'
@@ -22,12 +25,13 @@ export class UserService {
     return  this.http.get(`${environment.apiUrl}/user/id/${id}`);
   }
 
-  getAllUsers(filterResults: boolean): Observable<any> {
-    return this.http.get(`${environment.apiUrl}/user/all/${filterResults}`);
-  }
-
-  getAllByUsername(username: string): Observable<any> {
-    return this.http.get(`${environment.apiUrl}/user/all/username/${username}`);
+  getAllUsers(searchParams: SearchParamsInfo): Observable<any> {
+    const params = new HttpParams()
+        .set('filterResults', String(searchParams.filterUserResults))
+        .set('username', searchParams.username)
+        .set('maxResults', String(searchParams.maxResults))
+        .set('page', String(searchParams.page));
+    return this.http.get(`${environment.apiUrl}/user/all`, {params});
   }
 
   getBooksByUser(idUser: number): Observable<any> {

@@ -1,8 +1,9 @@
+import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
 import { Injectable } from '@angular/core';
-import {CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router} from '@angular/router';
-import { Observable } from 'rxjs';
-import {TokenStorageService} from '../services/token-storage.service';
-import {AlertController} from '@ionic/angular';
+
+import { AlertController } from '@ionic/angular';
+
+import { TokenStorageService } from '../services/token-storage.service';
 
 @Injectable({
   providedIn: 'root'

@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
-import {Observable} from 'rxjs';
 
+import { ActivatedRoute } from '@angular/router';
 import { BookDefinition } from '../../core/models/book-definition.model';
 import { BookService } from '../../core/services/book.service';
-import {ActivatedRoute} from '@angular/router';
-import {BookSearchParamsInfo} from '../../shared/models/bookSearchParams-info';
+import { SearchParamsInfo } from '../../shared/models/searchParams-info';
 
 @Component({
   selector: 'app-book-list',
@@ -13,11 +12,15 @@ import {BookSearchParamsInfo} from '../../shared/models/bookSearchParams-info';
 })
 export class BookListPage {
 
-  books: Observable<BookDefinition[]>;
+  books: BookDefinition[] = [];
   searchTitle = '';
   searchType = '';
   username: string;
   mode = '';
+
+  maxResults = 8;
+  page = 0;
+  maxPage: number;
 
   categories: string[] = ['Biography', 'ChildrenBook', 'Guide', 'PopularScience', 'Thriller', 'Novel', 'Poetry', 'History', 'Romance', 'Education', 'Scientific', 'Adventure', 'Criminal', 'Humour', 'Science_fiction', 'Other'];
 
@@ -25,6 +28,10 @@ export class BookListPage {
               private activatedRoute: ActivatedRoute) {}
 
   ionViewWillEnter() {
+    this.page = 0;
+    this.maxPage = null;
+    this.books = [];
+
     this.username = history.state.username;
     this.activatedRoute.data.subscribe( data => {
       if (data?.mode) {
@@ -36,23 +43,49 @@ export class BookListPage {
     this.searching();
   }
 
-  searching() {
+  searching(event?) {
     if (this.mode === 'fav') {
-      this.favSearchChanged();
+      this.favSearchChanged(event);
     } else {
-      this.searchChanged();
+      this.searchChanged(event);
     }
   }
 
-  favSearchChanged() {
-    const searchParams = new BookSearchParamsInfo(this.searchTitle, this.searchType);
-    this.books = this.bookService.getFavBooks(searchParams);
+  favSearchChanged(event?) {
+    const searchParams = new SearchParamsInfo();
+    searchParams.setBookValues(this.searchTitle, this.searchType, this.maxResults, this.page);
+    this.bookService.getFavBooks(searchParams).subscribe(
+        res => {
+          this.books = this.books.concat(res.books);
+
+          if (!this.maxPage) {
+            this.maxPage = Math.ceil(res.amountAll / this.maxResults) - 1;
+          }
+
+          if (event) {
+            event.target.complete();
+          }
+        }
+    );
   }
 
-  searchChanged(){
+  searchChanged(event?){
     const username = this.username ? this.username : null;
-    const searchParams = new BookSearchParamsInfo(this.searchTitle, this.searchType);
-    this.books = this.bookService.getAllBooks(searchParams, username);
+    const searchParams = new SearchParamsInfo();
+    searchParams.setBookValues(this.searchTitle, this.searchType, this.maxResults, this.page, username);
+    this.bookService.getAllBooks(searchParams).subscribe(
+        res => {
+          this.books = this.books.concat(res.books);
+
+          if (!this.maxPage) {
+            this.maxPage = Math.ceil(res.amountAll / this.maxResults) - 1;
+          }
+
+          if (event) {
+            event.target.complete();
+          }
+        }
+    );
   }
 
   detailsLink(id: number): string {
@@ -70,5 +103,19 @@ export class BookListPage {
 
   get defaultHref(): string {
     return `navigation/users/user-details/${this.username}`;
+  }
+
+  clearList() {
+    this.books = [];
+    this.page = 0;
+    this.maxPage = null;
+  }
+
+  loadMore(event) {
+    this.page++;
+    this.searching(event);
+    if (this.page === this.maxPage) {
+      event.target.disabled = true;
+    }
   }
 }

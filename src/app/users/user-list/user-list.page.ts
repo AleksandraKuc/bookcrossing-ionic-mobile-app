@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {Observable} from 'rxjs';
-import {UserDefinition} from '../../core/models/user-definition.model';
-import {UserService} from '../../core/services/user.service';
+
+import { SearchParamsInfo } from '../../shared/models/searchParams-info';
+import { UserDefinition } from '../../core/models/user-definition.model';
+import { UserService } from '../../core/services/user.service';
 
 @Component({
   selector: 'app-user-list',
@@ -10,24 +11,58 @@ import {UserService} from '../../core/services/user.service';
 })
 export class UserListPage implements OnInit {
 
-  users: Observable<UserDefinition[]>;
+  users: UserDefinition[];
   searchUsername = '';
+
+  maxResults = 8;
+  page = 0;
+  maxPage: number;
 
   constructor(private userService: UserService) { }
 
-  ngOnInit() {
-    this.users = this.userService.getAllUsers(true);
+  ngOnInit() {}
+
+  ionViewWillEnter() {
+    this.page = 0;
+    this.maxPage = null;
+    this.users = [];
+
+    this.searchChanged();
   }
 
-  searchChanged(){
-    if (this.searchUsername !== '') {
-      this.users = this.userService.getAllByUsername(this.searchUsername);
-    } else {
-      this.users = this.userService.getAllUsers(true);
-    }
+  searchChanged(event?){
+    const searchParams = new SearchParamsInfo();
+    searchParams.setUserValues(true, this.searchUsername, this.maxResults, this.page);
+    this.userService.getAllUsers(searchParams).subscribe(
+        res => {
+          this.users = this.users.concat(res.users);
+
+          if (!this.maxPage) {
+            this.maxPage = Math.ceil(res.amountAll / this.maxResults) - 1;
+          }
+
+          if (event) {
+            event.target.complete();
+          }
+        }
+    );
   }
 
   detailsLink(username: string): string {
     return `user-details/${username}`;
+  }
+
+  clearList() {
+    this.users = [];
+    this.page = 0;
+    this.maxPage = null;
+  }
+
+  loadMore(event) {
+    this.page++;
+    this.searchChanged(event);
+    if (this.page === this.maxPage) {
+      event.target.disabled = true;
+    }
   }
 }

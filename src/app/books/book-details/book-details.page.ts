@@ -1,16 +1,18 @@
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {BookService} from '../../core/services/book.service';
-import {BookDefinition} from '../../core/models/book-definition.model';
-import {UserDefinition} from '../../core/models/user-definition.model';
-import {HistoryUsersService} from '../../core/services/history-users.service';
-import {UserService} from '../../core/services/user.service';
-import {TokenStorageService} from '../../shared/services/token-storage.service';
-import {ConversationService} from '../../core/services/conversation.service';
-import {MessageDefinition} from '../../core/models/message-definition.model';
-import {ConversationDefinition} from '../../core/models/conversation-definition.model';
-import {AlertController, ModalController} from '@ionic/angular';
-import {BookAddModifyPage} from '../book-add-modify/book-add-modify.page';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+
+import { AlertController, ModalController } from '@ionic/angular';
+
+import { BookAddModifyPage } from '../book-add-modify/book-add-modify.page';
+import { BookDefinition } from '../../core/models/book-definition.model';
+import { BookService } from '../../core/services/book.service';
+import { ConversationDefinition } from '../../core/models/conversation-definition.model';
+import { ConversationService } from '../../core/services/conversation.service';
+import { HistoryUsersService } from '../../core/services/history-users.service';
+import { MessageDefinition } from '../../core/models/message-definition.model';
+import { TokenStorageService } from '../../shared/services/token-storage.service';
+import { UserDefinition } from '../../core/models/user-definition.model';
+import { UserService } from '../../core/services/user.service';
 
 @Component({
     selector: 'app-book-details',

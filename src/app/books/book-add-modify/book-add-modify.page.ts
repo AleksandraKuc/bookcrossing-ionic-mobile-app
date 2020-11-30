@@ -1,9 +1,11 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {BookDefinition} from '../../core/models/book-definition.model';
-import {BookService} from '../../core/services/book.service';
-import {ActivatedRoute, Router} from '@angular/router';
-import {AlertController, ModalController} from '@ionic/angular';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+
+import { AlertController, ModalController } from '@ionic/angular';
+
+import { BookDefinition } from '../../core/models/book-definition.model';
+import { BookService } from '../../core/services/book.service';
 
 @Component({
   selector: 'app-book-add-modify',
@@ -54,7 +56,6 @@ export class BookAddModifyPage implements OnInit {
       author: new FormControl('', [Validators.required]),
       isbn: new FormControl(''),
       category: new FormControl('', [Validators.required]),
-      // image: new FormControl('', [Validators.required]),
     });
   }
 

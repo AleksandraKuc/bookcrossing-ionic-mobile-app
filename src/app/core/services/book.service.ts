@@ -1,8 +1,10 @@
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpParams} from '@angular/common/http';
-import {Observable} from 'rxjs';
-import {TokenStorageService} from '../../shared/services/token-storage.service';
-import {BookSearchParamsInfo} from '../../shared/models/bookSearchParams-info';
+
+import { Observable } from 'rxjs';
+
+import { SearchParamsInfo } from '../../shared/models/searchParams-info';
+import { TokenStorageService } from '../../shared/services/token-storage.service';
 
 @Injectable({
   providedIn: 'root'
@@ -20,11 +22,22 @@ export class BookService {
     return this.http.get(`${this.bookUrl}/id/${idBook}`);
   }
 
-  getAllBooks(searchParams: BookSearchParamsInfo, username = null): Observable<any> {
+  getAmountBySearchParams(searchParams: SearchParamsInfo, username = null, mode: string): Observable<any>{
     const params = new HttpParams()
         .set('title', searchParams.title)
         .set('category', searchParams.category)
+        .set('mode', mode)
         .set('username', username);
+    return this.http.get(`${this.bookUrl}/amount`, {params});
+  }
+
+  getAllBooks(searchParams: SearchParamsInfo): Observable<any> {
+    const params = new HttpParams()
+        .set('title', searchParams.title)
+        .set('category', searchParams.category)
+        .set('maxResults', String(searchParams.maxResults))
+        .set('page', String(searchParams.page))
+        .set('username', searchParams.username);
     return this.http.get(`${this.bookUrl}/all`, {params});
   }
 
@@ -38,11 +51,13 @@ export class BookService {
     return this.http.get(`${this.bookUrl}/addedByUser/${username}`);
   }
 
-  getFavBooks(searchParams: BookSearchParamsInfo): Observable<any> {
+  getFavBooks(searchParams: SearchParamsInfo): Observable<any> {
     const username = this.tokenStorage.getUsername();
     const params = new HttpParams()
         .set('title', searchParams.title)
-        .set('category', searchParams.category);
+        .set('category', searchParams.category)
+        .set('maxResults', String(searchParams.maxResults))
+        .set('page', String(searchParams.page));
     return this.http.get(`${this.bookUrl}/fav/${username}`, { params });
   }
 
