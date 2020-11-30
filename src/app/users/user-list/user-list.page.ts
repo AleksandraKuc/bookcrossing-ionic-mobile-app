@@ -14,6 +14,8 @@ export class UserListPage implements OnInit {
   users: UserDefinition[];
   searchUsername = '';
 
+  isLoading = true;
+
   maxResults = 8;
   page = 0;
   maxPage: number;
@@ -23,6 +25,7 @@ export class UserListPage implements OnInit {
   ngOnInit() {}
 
   ionViewWillEnter() {
+    this.isLoading = true;
     this.page = 0;
     this.maxPage = null;
     this.users = [];
@@ -36,6 +39,7 @@ export class UserListPage implements OnInit {
     this.userService.getAllUsers(searchParams).subscribe(
         res => {
           this.users = this.users.concat(res.users);
+          this.isLoading = false;
 
           if (!this.maxPage) {
             this.maxPage = Math.ceil(res.amountAll / this.maxResults) - 1;

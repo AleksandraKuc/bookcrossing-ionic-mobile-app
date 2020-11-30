@@ -18,6 +18,8 @@ export class BookListPage {
   username: string;
   mode = '';
 
+  isLoading = true;
+
   maxResults = 8;
   page = 0;
   maxPage: number;
@@ -44,6 +46,7 @@ export class BookListPage {
   }
 
   searching(event?) {
+    this.isLoading = true;
     if (this.mode === 'fav') {
       this.favSearchChanged(event);
     } else {
@@ -57,6 +60,7 @@ export class BookListPage {
     this.bookService.getFavBooks(searchParams).subscribe(
         res => {
           this.books = this.books.concat(res.books);
+          this.isLoading = false;
 
           if (!this.maxPage) {
             this.maxPage = Math.ceil(res.amountAll / this.maxResults) - 1;
@@ -76,6 +80,7 @@ export class BookListPage {
     this.bookService.getAllBooks(searchParams).subscribe(
         res => {
           this.books = this.books.concat(res.books);
+          this.isLoading = false;
 
           if (!this.maxPage) {
             this.maxPage = Math.ceil(res.amountAll / this.maxResults) - 1;
@@ -114,7 +119,7 @@ export class BookListPage {
   loadMore(event) {
     this.page++;
     this.searching(event);
-    if (this.page === this.maxPage) {
+    if (this.page >= this.maxPage) {
       event.target.disabled = true;
     }
   }

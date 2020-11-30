@@ -9,7 +9,7 @@
   <ion-grid>
     <ion-row>
       <ion-col size="11" offset="0.5">
-        <ion-searchbar [(ngModel)]="searchUsername" (ionChange)="searchChanged()"></ion-searchbar>
+        <ion-searchbar [(ngModel)]="searchUsername" (ionChange)="clearList(); searchChanged()"></ion-searchbar>
 
         <ion-list *ngIf="users?.length">
           <ion-item button *ngFor="let user of users"

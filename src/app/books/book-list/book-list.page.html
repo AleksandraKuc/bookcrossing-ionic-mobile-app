@@ -15,7 +15,7 @@
                 <ion-searchbar [(ngModel)]="searchTitle" (ionChange)="clearList(); searching()"></ion-searchbar>
                 <ion-item>
                     <ion-label>Select books category:</ion-label>
-                    <ion-select [(ngModel)]="searchType" (ionChange)="searching()">
+                    <ion-select [(ngModel)]="searchType" (ionChange)="clearList(); searching()">
                         <ion-select-option value="">All</ion-select-option>
                         <ion-select-option *ngFor="let category of categories" [value]="category">
                             {{ category }}
@@ -40,7 +40,7 @@
                     </ion-infinite-scroll-content>
                 </ion-infinite-scroll>
 
-                <ion-item lines="none" *ngIf="!books?.length" class="ion-align-items-center">
+                <ion-item lines="none" *ngIf="!books?.length && !isLoading" class="ion-align-items-center">
                     <span> No books find :( </span>
                 </ion-item>
             </ion-col>

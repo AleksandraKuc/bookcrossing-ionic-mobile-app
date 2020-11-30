@@ -5,11 +5,11 @@ import { NgModule } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 
 import { BookAddModifyPage } from './book-add-modify.page';
-import { BookAddModifyPageRoutingModule } from './book-add-modify-routing.module';
+// import { BookAddModifyPageRoutingModule } from './book-add-modify-routing.module';
 
 @NgModule({
     imports: [
-        BookAddModifyPageRoutingModule,
+        // BookAddModifyPageRoutingModule,
         CommonModule,
         FormsModule,
         IonicModule,
