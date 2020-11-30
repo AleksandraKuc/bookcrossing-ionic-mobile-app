@@ -6,6 +6,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { NavigationPageRoutingModule } from './navigation-routing.module';
 
+import { BookAddModifyPageModule } from '../../books/book-add-modify/book-add-modify.module';
 import { NavigationPage } from './navigation.page';
 
 @NgModule({
@@ -13,7 +14,8 @@ import { NavigationPage } from './navigation.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    NavigationPageRoutingModule
+    NavigationPageRoutingModule,
+    BookAddModifyPageModule,
   ],
   declarations: [NavigationPage]
 })

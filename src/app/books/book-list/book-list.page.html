@@ -34,6 +34,12 @@
                         <ion-icon slot="end" name="book-outline"></ion-icon>
                     </ion-item>
                 </ion-list>
+
+                <ion-infinite-scroll threshold="5%" (ionInfinite)="loadData($event)">
+                    <ion-infinite-scroll-content loading-spinner="crescent" loading-text="Loading more books...">
+                    </ion-infinite-scroll-content>
+                </ion-infinite-scroll>
+
                 <ion-item lines="none" *ngIf="!(books | async)?.length" class="ion-align-items-center">
                     <span> No books find :( </span>
                 </ion-item>

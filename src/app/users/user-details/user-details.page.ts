@@ -32,7 +32,7 @@ export class UserDetailsPage {
   }
 
   get isProfileView(): boolean {
-    return this.tokenStorage.areUsernameEquals(this.details.username);
+    return this.tokenStorage.areUsernameEquals(this.details?.username);
   }
 
   get buttonText(): string {

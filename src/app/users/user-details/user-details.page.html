@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar color="deep-purple">
-    <ion-buttons slot="start">
+    <ion-buttons slot="start" *ngIf="!isProfileView">
       <ion-back-button defaultHref="navigation/users" slot="icon-only"></ion-back-button>
     </ion-buttons>
     <ion-title>{{details?.username}}</ion-title>

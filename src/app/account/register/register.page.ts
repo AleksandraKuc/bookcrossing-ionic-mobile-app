@@ -122,7 +122,26 @@ export class RegisterPage implements OnInit {
     }).then(alert => alert.present());
   }
 
-  formInputIsRequired(i: string){
-    return true;
+  controlValid(name: string): boolean {
+    if (name === 'phoneNumber') {
+      return this.registerForm.get(name).hasError('pattern') &&
+          (this.registerForm.get(name).touched ||
+          this.registerForm.get(name).dirty);
+    }
+    return this.registerForm.get(name).hasError('required') &&
+        (this.registerForm.get(name).touched ||
+            this.registerForm.get(name).dirty);
+  }
+
+  checkPasswordPattern(): boolean {
+    return this.registerForm.get('password').hasError('pattern') &&
+        (this.registerForm.get('password').touched ||
+            this.registerForm.get('password').dirty);
+  }
+
+  checkEmailPattern(): boolean {
+    return this.registerForm.get('email').hasError('email') &&
+        (this.registerForm.get('email').touched ||
+            this.registerForm.get('email').dirty);
   }
 }

@@ -6,40 +6,61 @@
 
 <ion-content class="ion-padding">
 
-  <ion-row>
-    <ion-col size="12" size-sm="10" offset-sm="1" size-md="8" offset-md="2" size-lg="6" offset-lg="3" size-xl="4"
-             offset-xl="4">
+  <ion-card [formGroup]="credentials">
 
-      <ion-card>
-        <ion-card-header>
+    <ion-card-header>
+    <ion-row>
+      <ion-col size="12" size-sm="10" offset-sm="1" size-md="8" offset-md="2" size-lg="6" offset-lg="3" size-xl="4"
+               offset-xl="4">
+
           <ion-card-title class="ion-text-center">Your Account</ion-card-title>
-        </ion-card-header>
 
-        <ion-card-content>
+      </ion-col>
+    </ion-row>
+    </ion-card-header>
 
-          <ion-item lines="none">
+    <ion-card-content>
+
+      <ion-row>
+        <ion-col size="12" size-sm="10" offset-sm="1" size-md="8" offset-md="2" size-lg="6" offset-lg="3" size-xl="4"
+                 offset-xl="4">
+
+          <ion-item>
             <ion-label position="stacked">Username</ion-label>
-            <ion-input type="text" placeholder="Username" name="username" [(ngModel)]="credentials.username"></ion-input>
+            <ion-input type="text" placeholder="Username" name="username" formControlName="username"></ion-input>
           </ion-item>
 
-          <ion-item lines="none">
+          <div *ngIf="controlValid('username')" class="error-message ion-margin-horizontal">
+            <small>Username is required.</small>
+          </div>
+
+          <ion-item>
             <ion-label position="stacked">Password</ion-label>
-            <ion-input type="password" placeholder="Password" name="password" [(ngModel)]="credentials.password">
+            <ion-input type="password" placeholder="Password" name="password" formControlName="password">
             </ion-input>
           </ion-item>
 
-          <ion-button (click)="login()" color="amber" expand="block"><b>Login</b></ion-button>
+          <div *ngIf="controlValid('password')" class="error-message ion-margin-horizontal">
+            <small>Password is required.</small>
+          </div>
 
+        </ion-col>
+      </ion-row>
 
-        </ion-card-content>
-      </ion-card>
+      <ion-row>
+        <ion-col offset="3" size="6">
+          <ion-button (click)="login()" color="amber" expand="block" [disabled]="!credentials.valid"><b>Login</b></ion-button>
+        </ion-col>
+      </ion-row>
 
+    </ion-card-content>
+  </ion-card>
 
-      <ion-button expand="block" color="amber" class="ion-margin-top ion-margin-horizontal"
-                  routerLink="/navigation/register" routerDirection="forward">
+  <ion-row>
+    <ion-col offset="3" size="6">
+      <ion-button color="amber" expand="block" routerLink="/navigation/register" routerDirection="forward">
         <b>Register</b>
       </ion-button>
-
     </ion-col>
   </ion-row>
 

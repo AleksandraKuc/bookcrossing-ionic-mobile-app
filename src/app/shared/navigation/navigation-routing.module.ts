@@ -28,6 +28,11 @@ const routes: Routes = [
         loadChildren: () => import('../../books/book-list/book-list.module').then(m => m.BookListPageModule)
       },
       {
+        path: 'book-modify/:id',
+        loadChildren: () => import('../../books/book-add-modify/book-add-modify.module').then( m => m.BookAddModifyPageModule),
+        canActivate: [AuthGuard],
+      },
+      {
         path: 'users',
         loadChildren: () => import('../../users/user-list/user-list.module').then( m => m.UserListPageModule)
       },
@@ -47,7 +52,7 @@ const routes: Routes = [
       {
         path: 'register',
         loadChildren: () => import('../../account/register/register.module').then(m => m.RegisterPageModule)
-      },
+      }
     ]
   },
   {

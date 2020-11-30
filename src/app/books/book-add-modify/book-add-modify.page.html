@@ -1,0 +1,75 @@
+<ion-header>
+    <ion-toolbar color="deep-purple">
+        <ion-buttons slot="start">
+            <ion-back-button (click)="backButton()" [defaultHref]="getReturn()" slot="icon-only"></ion-back-button>
+        </ion-buttons>
+        <ion-title>{{ pageTitle }}</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-card [formGroup]="bookForm">
+        <ion-card-content>
+
+            <ion-row>
+                <ion-col size="12" size-sm="10" offset-sm="1" size-md="8" offset-md="2" size-lg="6" offset-lg="3"
+                         size-xl="4"
+                         offset-xl="4">
+
+                    <ion-item>
+                        <ion-label position="stacked">Title</ion-label>
+                        <ion-input type="text" placeholder="Title" name="title" formControlName="title"></ion-input>
+                    </ion-item>
+
+                    <div *ngIf="controlValid('title')" class="error-message ion-margin-horizontal">
+                        <small>Title is required.</small>
+                    </div>
+
+                    <ion-item>
+                        <ion-label position="stacked">Description</ion-label>
+                        <ion-textarea type="text" placeholder="Description" name="description"
+                                      formControlName="description">
+                        </ion-textarea>
+                    </ion-item>
+
+                    <ion-item>
+                        <ion-label position="stacked">Author</ion-label>
+                        <ion-input type="text" placeholder="Author" name="author" formControlName="author">
+                        </ion-input>
+                    </ion-item>
+
+                    <div *ngIf="controlValid('author')" class="error-message ion-margin-horizontal">
+                        <small>Author is required.</small>
+                    </div>
+
+                    <ion-item>
+                        <ion-label position="stacked">ISBN number</ion-label>
+                        <ion-input type="text" placeholder="ISBN" name="isbn" formControlName="isbn">
+                        </ion-input>
+                    </ion-item>
+
+                    <ion-item>
+                        <ion-label position="stacked">Category</ion-label>
+                        <ion-select formControlName="category">
+                            <ion-select-option *ngFor="let category of categories" [value]="category">
+                                {{ category }}
+                            </ion-select-option>
+                        </ion-select>
+                    </ion-item>
+
+                    <div *ngIf="controlValid('category')" class="error-message ion-margin-horizontal">
+                        <small>Category is required.</small>
+                    </div>
+
+                </ion-col>
+            </ion-row>
+            <ion-row class="ion-margin-top">
+                <ion-col offset="3" size="6">
+                    <ion-button (click)="save()" color="amber" expand="block" [disabled]="!bookForm.valid">
+                        <b>{{submitButton}}</b></ion-button>
+                </ion-col>
+            </ion-row>
+        </ion-card-content>
+    </ion-card>
+
+</ion-content>

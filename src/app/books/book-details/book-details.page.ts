@@ -9,7 +9,8 @@ import {TokenStorageService} from '../../shared/services/token-storage.service';
 import {ConversationService} from '../../core/services/conversation.service';
 import {MessageDefinition} from '../../core/models/message-definition.model';
 import {ConversationDefinition} from '../../core/models/conversation-definition.model';
-import {AlertController} from '@ionic/angular';
+import {AlertController, ModalController} from '@ionic/angular';
+import {BookAddModifyPage} from '../book-add-modify/book-add-modify.page';
 
 @Component({
     selector: 'app-book-details',
@@ -29,7 +30,8 @@ export class BookDetailsPage implements OnInit {
                 private conversationService: ConversationService,
                 private tokenStorage: TokenStorageService,
                 private router: Router,
-                private alertCtrl: AlertController) {
+                private alertCtrl: AlertController,
+                private modalCtrl: ModalController) {
     }
 
     ngOnInit() { }
@@ -61,12 +63,30 @@ export class BookDetailsPage implements OnInit {
         });
     }
 
-    protected modifyLink(id: number): string {
-        return `books/edit/${encodeURIComponent(id)}`;
+    async editBook() {
+        const url = this.router.routerState.snapshot.url;
+        const modal = await this.modalCtrl.create({
+            component: BookAddModifyPage,
+            cssClass: 'my-custom-class',
+            componentProps: {
+                returnUrl: url,
+                pageMode: 'edit',
+                modifyId: this.details.id_book
+            }
+        });
+        modal.onDidDismiss().then((modalData) => {
+            if (modalData.data.length !== 0) {
+                this.ionViewWillEnter();
+            }
+        });
+        return await modal.present();
     }
 
-    editBook(): void {
-        this.router.navigate([this.modifyLink(this.details.id_book)]);
+    async reload(modal: any) {
+        const { data } = await modal.onWillDismiss();
+        if (data.dismiss) {
+            console.log('reload!');
+        }
     }
 
     deleteBook(): void {

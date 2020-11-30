@@ -21,11 +21,22 @@
             <ion-input type="text" placeholder="Username" name="username" formControlName="username"></ion-input>
           </ion-item>
 
+          <div *ngIf="controlValid('username')" class="error-message ion-margin-horizontal">
+            <small>Username is required.</small>
+          </div>
+
           <ion-item lines="none">
             <ion-label position="stacked">Password</ion-label>
             <ion-input type="password" placeholder="Password" name="password" formControlName="password">
             </ion-input>
           </ion-item>
+
+          <div *ngIf="controlValid('password') && !checkPasswordPattern()" class="error-message ion-margin-horizontal">
+            <small>Password is required.</small>
+          </div>
+          <div *ngIf="checkPasswordPattern()" class="error-message ion-margin-horizontal">
+            <small>Password should contain at least 8 characters: one uppercase letter, one lowercase letter, a number and a special character.</small>
+          </div>
 
           <ion-item lines="none">
             <ion-label position="stacked">Name</ion-label>
@@ -33,11 +44,19 @@
             </ion-input>
           </ion-item>
 
+          <div *ngIf="controlValid('name')" class="error-message ion-margin-horizontal">
+            <small>Name is required.</small>
+          </div>
+
           <ion-item lines="none">
             <ion-label position="stacked">Lastname</ion-label>
             <ion-input type="text" placeholder="Lastname" name="lastname" formControlName="lastname">
             </ion-input>
           </ion-item>
+
+          <div *ngIf="controlValid('lastname')" class="error-message ion-margin-horizontal">
+            <small>Lastname is required.</small>
+          </div>
 
           <ion-item lines="none">
             <ion-label position="stacked">Email</ion-label>
@@ -45,11 +64,22 @@
             </ion-input>
           </ion-item>
 
+          <div *ngIf="controlValid('email') && !checkEmailPattern()" class="error-message ion-margin-horizontal">
+            <small>Email is required.</small>
+          </div>
+          <div *ngIf="checkEmailPattern()" class="error-message ion-margin-horizontal">
+            <small>Invalid email format.</small>
+          </div>
+
           <ion-item lines="none">
             <ion-label position="stacked">City</ion-label>
             <ion-input type="text" placeholder="City" name="city" formControlName="city">
             </ion-input>
           </ion-item>
+
+          <div *ngIf="controlValid('city')" class="error-message ion-margin-horizontal">
+            <small>City is required.</small>
+          </div>
 
           <ion-item lines="none">
             <ion-label position="stacked">Province</ion-label>
@@ -57,14 +87,21 @@
             </ion-input>
           </ion-item>
 
+          <div *ngIf="controlValid('province')" class="error-message ion-margin-horizontal">
+            <small>Province is required.</small>
+          </div>
+
           <ion-item lines="none">
             <ion-label position="stacked">Phone number</ion-label>
             <ion-input type="number" placeholder="PhoneNumber" name="phoneNumber" formControlName="phoneNumber">
             </ion-input>
           </ion-item>
 
-          <ion-button (click)="onSubmit()" color="amber" expand="block" [disabled]="!registerForm.valid"><b>Register</b></ion-button>
+          <div *ngIf="controlValid('phoneNumber')" class="error-message ion-margin-horizontal">
+            <small>Phone number is invalid.</small>
+          </div>
 
+          <ion-button (click)="onSubmit()" color="amber" expand="block" [disabled]="!registerForm.valid"><b>Register</b></ion-button>
 
         </ion-card-content>
       </ion-card>

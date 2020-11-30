@@ -4,8 +4,7 @@
   </ion-fab-button>
   <ion-fab-list side="top">
     <ion-fab-button color="primary" (click)="logOut()"><ion-icon name="log-out-outline"></ion-icon></ion-fab-button>
-    <ion-fab-button color="primary" *ngIf="bookDetailsView | async"><ion-icon name="create-outline"></ion-icon></ion-fab-button>
-    <ion-fab-button color="primary"><ion-icon name="add-outline"></ion-icon></ion-fab-button>
+    <ion-fab-button color="primary" (click)="createBook()"><ion-icon name="add-outline"></ion-icon></ion-fab-button>
   </ion-fab-list>
 </ion-fab>
 
