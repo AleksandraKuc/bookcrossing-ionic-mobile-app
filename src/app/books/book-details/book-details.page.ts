@@ -104,7 +104,7 @@ export class BookDetailsPage implements OnInit {
                     text: 'Delete',
                     handler: () => {
                         this.bookService.deleteBook(this.details.id_book).subscribe(() => {
-                            this.router.navigate([`/books`]);
+                            this.router.navigate([`navigation/books`]);
                         });
                     }
                 }]

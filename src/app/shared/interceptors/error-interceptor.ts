@@ -16,6 +16,7 @@ export class ErrorInterceptor implements HttpInterceptor {
             if (err.status === 401) {
                 this.token.logOut();
             }
+            console.log('err.status: ' + err.status);
 
             const error = err.error.message || err.statusText;
             return throwError(error);

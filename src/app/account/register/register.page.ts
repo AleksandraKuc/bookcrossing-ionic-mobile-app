@@ -52,7 +52,7 @@ export class RegisterPage implements OnInit {
         {
           name: 'confirmPassword',
           type: 'password',
-          placeholder: 'Conform password',
+          placeholder: 'Confirm password',
         }
       ],
       buttons: [

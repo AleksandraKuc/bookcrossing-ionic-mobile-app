@@ -8,7 +8,6 @@ export class BookDefinition {
     author: string;
     isbn: number;
     category: string;
-    image: any;
     history: BookHistoryDefinition;
 
     constructor(title: string, description: string, author: string, isbn: number, category: string) {

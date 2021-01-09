@@ -22,15 +22,6 @@ export class BookService {
     return this.http.get(`${this.bookUrl}/id/${idBook}`);
   }
 
-  getAmountBySearchParams(searchParams: SearchParamsInfo, username = null, mode: string): Observable<any>{
-    const params = new HttpParams()
-        .set('title', searchParams.title)
-        .set('category', searchParams.category)
-        .set('mode', mode)
-        .set('username', username);
-    return this.http.get(`${this.bookUrl}/amount`, {params});
-  }
-
   getAllBooks(searchParams: SearchParamsInfo): Observable<any> {
     const params = new HttpParams()
         .set('title', searchParams.title)
@@ -59,10 +50,6 @@ export class BookService {
         .set('maxResults', String(searchParams.maxResults))
         .set('page', String(searchParams.page));
     return this.http.get(`${this.bookUrl}/fav/${username}`, { params });
-  }
-
-  uploadImage(image: any): Observable<any> {
-    return this.http.post(`${this.bookUrl}/upload`, image);
   }
 
   createBook(book: any): Observable<any> {

@@ -118,7 +118,7 @@ export class BookAddModifyPage implements OnInit {
   success(id: string) {
     this.alertCtrl.create({
       header: 'Success!',
-      message: 'Book added successfully!',
+      message: this.pageMode === 'edit' ? 'Book modified successfully' : 'Book added successfully!',
       buttons: [
         {
           text: 'OK',
